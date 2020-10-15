@@ -20,28 +20,35 @@
     var CONFIG = {"hostname":"overwang.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Shunhong Wang">
-<meta property="og:url" content="https://overwang.github.io/index.html">
+  <meta name="description" content="追踪精度评估指标记录当前使用到的各个追踪精度评估指标的含义及偏重点。 追踪示意图 $FP\downarrow$(False Positive)、$FN\downarrow$(False Negative)含义$FP$(False Positive)和$FN$(False Negative)来源于二值分类问题，二者都表示预测错误的情况（即False表示的含义），$FP$表示模型预测为正例，但是实际上">
+<meta property="og:type" content="article">
+<meta property="og:title" content="追踪精度评估指标">
+<meta property="og:url" content="https://overwang.github.io/2020/10/15/%E8%BF%BD%E8%B8%AA%E7%B2%BE%E5%BA%A6%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87/index.html">
 <meta property="og:site_name" content="Shunhong Wang">
+<meta property="og:description" content="追踪精度评估指标记录当前使用到的各个追踪精度评估指标的含义及偏重点。 追踪示意图 $FP\downarrow$(False Positive)、$FN\downarrow$(False Negative)含义$FP$(False Positive)和$FN$(False Negative)来源于二值分类问题，二者都表示预测错误的情况（即False表示的含义），$FP$表示模型预测为正例，但是实际上">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://overwang.github.io/2020/10/15/%E8%BF%BD%E8%B8%AA%E7%B2%BE%E5%BA%A6%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87/figures/tracker-to-target.png">
+<meta property="article:published_time" content="2020-10-15T11:50:16.454Z">
+<meta property="article:modified_time" content="2020-10-15T11:50:16.462Z">
 <meta property="article:author" content="Shunhong Wang">
+<meta property="article:tag" content="MOT">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://overwang.github.io/2020/10/15/%E8%BF%BD%E8%B8%AA%E7%B2%BE%E5%BA%A6%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87/figures/tracker-to-target.png">
 
-<link rel="canonical" href="https://overwang.github.io/">
+<link rel="canonical" href="https://overwang.github.io/2020/10/15/%E8%BF%BD%E8%B8%AA%E7%B2%BE%E5%BA%A6%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>Shunhong Wang</title>
+  <title>追踪精度评估指标 | Shunhong Wang</title>
   
 
 
@@ -146,9 +153,10 @@
         <div class="content-wrap">
           
 
-          <div class="content index posts-expand">
+          <div class="content post posts-expand">
             
-      
+
+    
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
@@ -164,10 +172,9 @@
       <meta itemprop="name" content="Shunhong Wang">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/10/15/%E8%BF%BD%E8%B8%AA%E7%B2%BE%E5%BA%A6%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87/" class="post-title-link" itemprop="url">追踪精度评估指标</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          追踪精度评估指标
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -180,6 +187,13 @@
             </span>
 
           
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
 
         </div>
       </header>
@@ -190,7 +204,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="追踪精度评估指标"><a href="#追踪精度评估指标" class="headerlink" title="追踪精度评估指标"></a>追踪精度评估指标</h1><p>记录当前使用到的各个追踪精度评估指标的含义及偏重点。</p>
+        <h1 id="追踪精度评估指标"><a href="#追踪精度评估指标" class="headerlink" title="追踪精度评估指标"></a>追踪精度评估指标</h1><p>记录当前使用到的各个追踪精度评估指标的含义及偏重点。</p>
 <p><img src="./figures/tracker-to-target.png" alt="tracker-to-target"><br><strong><center>追踪示意图</center></strong></p>
 <h2 id="FP-downarrow-False-Positive-、-FN-downarrow-False-Negative"><a href="#FP-downarrow-False-Positive-、-FN-downarrow-False-Negative" class="headerlink" title="$FP\downarrow$(False Positive)、$FN\downarrow$(False Negative)"></a>$FP\downarrow$(False Positive)、$FN\downarrow$(False Negative)</h2><h3 id="含义"><a href="#含义" class="headerlink" title="含义"></a>含义</h3><p>$FP$(False Positive)和$FN$(False Negative)来源于二值分类问题，二者都表示预测错误的情况（即False表示的含义），$FP$表示模型预测为正例，但是实际上应该是负例；$FN$表示模型预测为负例，但是实际上应该是正例。<br>在MOT的实际问题中，当前帧预测的物体与实际groud truth中的物体没有匹配上时</p>
 <ul>
@@ -212,21 +226,26 @@
 <p>$d_i$为检测目标$i$与匹配的真实值之间的度量距离，可以采用二维包围盒交并比或者三维包围盒交并比。$c$为在当前帧匹配成功的数目。<br>$$<br>包围盒交并比=\frac{包围盒相交区域大小}{包围盒相并区域大小}<br>$$</p>
 <h3 id="侧重点-4"><a href="#侧重点-4" class="headerlink" title="侧重点"></a>侧重点</h3><p>主要量化的是检测器的定位精度，几乎不包含与跟踪器实际性能相关的信息。</p>
 
-      
     </div>
 
     
     
     
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
+          <div class="post-tags">
+              <a href="/tags/MOT/" rel="tag"># MOT</a>
+          </div>
+
+        
+
+
+        
       </footer>
+    
   </article>
   
   
-  
-
-
   
 
 
@@ -279,6 +298,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%BD%E8%B8%AA%E7%B2%BE%E5%BA%A6%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87"><span class="nav-number">1.</span> <span class="nav-text">追踪精度评估指标</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#FP-downarrow-False-Positive-%E3%80%81-FN-downarrow-False-Negative"><span class="nav-number">1.1.</span> <span class="nav-text">$FP\downarrow$(False Positive)、$FN\downarrow$(False Negative)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AB%E4%B9%89"><span class="nav-number">1.1.1.</span> <span class="nav-text">含义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%A7%E9%87%8D%E7%82%B9"><span class="nav-number">1.1.2.</span> <span class="nav-text">侧重点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GT-Ground-Truth"><span class="nav-number">1.2.</span> <span class="nav-text">$GT$(Ground Truth)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AB%E4%B9%89-1"><span class="nav-number">1.2.1.</span> <span class="nav-text">含义</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IDSW-downarrow-ID-Switch"><span class="nav-number">1.3.</span> <span class="nav-text">$IDSW\downarrow$(ID Switch)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AB%E4%B9%89-2"><span class="nav-number">1.3.1.</span> <span class="nav-text">含义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%A7%E9%87%8D%E7%82%B9-1"><span class="nav-number">1.3.2.</span> <span class="nav-text">侧重点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FRAG-downarrow-Fragment"><span class="nav-number">1.4.</span> <span class="nav-text">$FRAG\downarrow$(Fragment)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AB%E4%B9%89-3"><span class="nav-number">1.4.1.</span> <span class="nav-text">含义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%A7%E9%87%8D%E7%82%B9-2"><span class="nav-number">1.4.2.</span> <span class="nav-text">侧重点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MOTA-uparrow-Multiple-Object-Tracking-Accuracy"><span class="nav-number">1.5.</span> <span class="nav-text">$MOTA\uparrow$(Multiple Object Tracking Accuracy)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AB%E4%B9%89-4"><span class="nav-number">1.5.1.</span> <span class="nav-text">含义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%A7%E9%87%8D%E7%82%B9-3"><span class="nav-number">1.5.2.</span> <span class="nav-text">侧重点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MOTP-uparrow-Multiple-Object-Tracking-Precision"><span class="nav-number">1.6.</span> <span class="nav-text">$MOTP\uparrow$(Multiple Object Tracking Precision)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AB%E4%B9%89-5"><span class="nav-number">1.6.1.</span> <span class="nav-text">含义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%A7%E9%87%8D%E7%82%B9-4"><span class="nav-number">1.6.2.</span> <span class="nav-text">侧重点</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
